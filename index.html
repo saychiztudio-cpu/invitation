@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SayChiz Grand Opening!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- CSS SAMA SEPERTI SEBELUMNYA (RESPONSIVE) --- */
+        :root {
+            --primary-blue: #89C4F4;
+            --soft-bg: #F0F4F8;
+            --text-color: #4A4A4A;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: var(--soft-bg);
+            background-image: radial-gradient(#dbe9f4 2px, transparent 2px);
+            background-size: 20px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .landing-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            transition: opacity 0.5s ease;
+        }
+
+        .logo-img {
+            width: 60%;
+            max-width: 220px;
+            margin-bottom: 15px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .mascot-img {
+            width: 80%;
+            max-width: 300px;
+            margin: 20px auto;
+            display: block;
+            filter: drop-shadow(0 10px 15px rgba(137, 196, 244, 0.4));
+            transition: transform 0.2s;
+        }
+
+        .instruction {
+            background: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            color: var(--primary-blue);
+            font-weight: 500;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .camera-btn {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            font-size: 1.3rem;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 0 #5DA3D6;
+            transition: all 0.1s;
+            touch-action: manipulation;
+        }
+
+        .camera-btn:active {
+            transform: translateY(5px);
+            box-shadow: 0 3px 0 #5DA3D6;
+        }
+
+        .invitation-card {
+            display: none;
+            background: white;
+            padding: 20px;
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 20px 50px rgba(137, 196, 244, 0.4);
+            transform: rotate(-2deg);
+            text-align: center;
+        }
+
+        .photo-area {
+            background-color: var(--soft-bg);
+            width: 100%;
+            aspect-ratio: 4/5; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .photo-area img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 10px;
+        }
+
+        .details h1 {
+            color: var(--primary-blue);
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+        }
+
+        .date-badge {
+            display: inline-block;
+            background: #FF8BA7;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin: 10px 0;
+            transform: rotate(2deg);
+        }
+
+        .location {
+            font-size: 1rem;
+            margin-top: 10px;
+            line-height: 1.4;
+        }
+
+        .save-btn {
+            margin-top: 25px;
+            text-decoration: none;
+            display: inline-block;
+            background: #4A4A4A;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: transform 0.2s;
+            width: 100%;
+        }
+
+        .save-btn:hover {
+            transform: scale(1.02);
+        }
+
+        #flash-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: white;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @keyframes popUp {
+            0% { transform: scale(0.8) translateY(50px); opacity: 0; }
+            100% { transform: scale(1) translateY(0) rotate(-2deg); opacity: 1; }
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 900px;
+                flex-direction: row;
+                gap: 50px;
+            }
+            .invitation-card {
+                max-width: 400px;
+                transform: rotate(0deg);
+            }
+            @keyframes popUpDesktop {
+                0% { transform: scale(0.8) translateX(-50px); opacity: 0; }
+                100% { transform: scale(1) translateX(0); opacity: 1; }
+            }
+        }
+
+        @media (max-width: 380px) {
+            .logo-img { width: 50%; }
+            .mascot-img { width: 70%; }
+            .camera-btn { padding: 15px 40px; font-size: 1.1rem; }
+            .details h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="flash-overlay"></div>
+
+    <div class="container">
+        <div class="landing-screen" id="scene1">
+            <img src="Dog + Text Final.png" alt="SayChiz Logo" class="logo-img">
+            <div class="instruction">Tap to SNAP! 📸</div>
+            <!-- <img src="Dog + Text Final.png" alt="Mascot" class="mascot-img"> -->
+            <button class="camera-btn" onclick="takePicture()">SNAP!</button>
+        </div>
+
+        <div class="invitation-card" id="scene2">
+            <div class="photo-area">
+                <img src="Poster.png" alt="SayChiz Result">
+            </div>
+            
+            <div class="details">
+                <h1>Grand Opening!</h1>
+                <div class="date-badge">19 DEC 2025</div>
+                
+                <div class="location">
+                    <strong>K-Square Mall Batam</strong><br>
+                    <span style="color: #777; font-size: 0.9em;">(Lantai 3, Depan Cinepolis)</span>
+                </div>
+
+                <p style="margin-top:15px; font-size: 0.95rem;">
+                    Selamat Datang<br>Yuk cobain experience photobox<br>paling hits di Batam! ✨
+                </p>
+
+                <a href="https://maps.google.com/?q=K-Square+Mall+Batam" target="_blank" class="save-btn">
+                    📍 Open Google Maps
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function takePicture() {
+            const scene1 = document.getElementById('scene1');
+            const scene2 = document.getElementById('scene2');
+            const flash = document.getElementById('flash-overlay');
+            const container = document.querySelector('.container');
+
+            // --- AUDIO SETUP ---
+            
+            // 1. Shutter Sound (Link Publik Stabil)
+            const shutterSound = new Audio('https://www.soundjay.com/mechanical/camera-shutter-click-08.mp3');
+            
+            // 2. Music Cupid URL (GANTI LINK INI)
+            const musicURL = "Soda.mp3"; 
+            const musicAudio = new Audio(musicURL);
+            musicAudio.volume = 0.8;
+
+            // --- EKSEKUSI URUTAN (SEQUENCE) ---
+
+            // Step 1: Mainkan suara Shutter DULUAN
+            shutterSound.play().catch(e => console.log("Shutter error:", e));
+
+            // Step 2: Efek Visual Flash (Bersamaan dengan shutter)
+            flash.style.transition = "opacity 0.05s";
+            flash.style.opacity = "1    ";
+
+            // Step 3: Tunggu sebentar (800ms) baru mainkan Lagu Cupid
+            // Ini memberi jeda agar suara shutter terdengar jelas sebelum musik masuk
+            setTimeout(() => {
+                
+                // Coba lompat ke bagian lirik "More more more" (Detik ke-39)
+                try {
+                    musicAudio.currentTime = 66; 
+                } catch (e) { console.log("Seeking not supported"); }
+
+                // Play Music
+                musicAudio.play().catch(e => console.log("Music play blocked:", e));
+
+                // --- GANTI TAMPILAN KE SCENE 2 ---
+                scene1.style.display = 'none';
+                scene2.style.display = 'block';
+                
+                // Animasi muncul sesuai layar
+                if (window.innerWidth >= 768) {
+                     scene2.style.animation = 'popUpDesktop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
+                     container.style.justifyContent = 'center';
+                } else {
+                     scene2.style.animation = 'popUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
+                }
+
+                // Hilangkan flash pelan-pelan
+                flash.style.transition = "opacity 1s ease-out";
+                flash.style.opacity = "0";
+
+            }, 800); // 800 milidetik = 0.8 detik delay
+        }
+    </script>
+</body>
+</html>
